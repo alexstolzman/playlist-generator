@@ -37,7 +37,7 @@ return(
       <header className="App-header">
       {!token ?
                    
-                    <Button variant="outline-primary" onClick={logout} href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</Button>
+                    <Button variant="outline-primary" onClick={logout} href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=playlist-modify-public&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</Button>
                     : <Button variant="outline-primary" onClick={logout}>Logout</Button>}
                     
       </header>
