@@ -4,15 +4,16 @@ import axios from 'axios'
 
 export default function Search(){
     const [searchKey, setSearchKey]=useState("")
+    const [playlistId, setPlaylistId]=useState("")
 
     const getUserId=()=>{
 
     }
 
     const addToPlaylist=(tracks)=>{
-        axios.post("https://api.spotify.com/v1/playlists/{playlist_id}/tracks",
+        axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
         {
-            "tracks": {tracks}
+            "uris": tracks
         },{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -21,7 +22,7 @@ export default function Search(){
             
         })
         .then((response)=>{
-
+           // console.log(response)
         })
         .catch((err)=>{
             console.log(err)
@@ -39,7 +40,12 @@ export default function Search(){
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 'Content-Type': 'application/json'
             },
-            
+        })
+        .then((response)=>{
+                setPlaylistId(response.data.id)
+            })
+        .catch((err)=>{
+            console.log(err)
         })
     }
 
@@ -64,6 +70,7 @@ export default function Search(){
                             tracks.push(element.uri)
                         })
                         addToPlaylist(tracks)
+                        console.log(tracks)
                     })
                     .catch((err)=>{
                         console.log(err)
@@ -89,9 +96,9 @@ export default function Search(){
             }
         })
         .then((response)=>{
+            createPlaylist(response.data.artists.items[0])
             getAlbumIds(response.data.artists.items[0].id)
 
-            createPlaylist(response.data.artists.items[0])
         })
         .catch((err)=>{
             console.log(err)
